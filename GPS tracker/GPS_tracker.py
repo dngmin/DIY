@@ -95,13 +95,16 @@ class GUI:
 
 class to_kml:
     def point(Latitude,Longitude): # 緯度 , 経度
-        point = simplekml.Kml()
-        point.newpoint(name='GPS POINT',description='POINT from GPS tracker',coords=[(Longitude,Latitude)])
-        point.save('GPS tracker point.kml')
+        if not (-180<=float(Latitude)<=180 or -180<=float(Longitude)<=180):
+            msgbox.showerror(title='value error!',message='-180から 180の間の値を入力してください')
+        else:
+            point = simplekml.Kml()
+            point.newpoint(name='GPS POINT',description='POINT from GPS tracker',coords=[(Longitude,Latitude)])
+            point.save('GPS tracker point.kml')
 
     def route(gps_file): # ファイル位置
         df = pd.read_csv(gps_file)
-        coord = list(zip(df['lat'],df['lon']))
+        coord = list(zip(df['lon'],df['lat']))
 
         route = simplekml.Kml()
         lin = route.newlinestring(name='GPS ROUTE',description='ROUTE from GPS tracker',coords=coord)
@@ -113,7 +116,7 @@ class func:
     def ask_open_map():
         url = 'https://www.google.co.jp/maps/'
         
-        res = msgbox.askyesno(title='open google map?',message='Googleマップを開きましか？')
+        res = msgbox.askyesno(title='open google map?',message='Googleマップを開きますか？')
         if res == True:
             webbrowser.open(url)
         else:
