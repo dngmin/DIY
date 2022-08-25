@@ -9,7 +9,17 @@ import time
 """
 GPS tracker !
 
-csvファイルを読み込む時csvファイルの中身を
+
+Longitude(経度) range
+0 ~ 180 : 本初子午線より東
+-180 ~ 0 : 本初子午線より西
+
+Latitude(緯度) range : -180 ~ 180
+0 ~ 180 : 北半球
+-180 ~ 0 : 南半球
+
+
+csvファイルを読み込む時には中身を
 
 lan lot
 x1  y1
@@ -20,7 +30,6 @@ x2  y2
 
 """
 
-# GUI
 class GUI:
     def __init__(self):
         pass
@@ -55,7 +64,7 @@ class GUI:
         Lat_Text = Entry(point_text_frame,width=15)
         Lon_Text = Entry(point_text_frame,width=15)
         point_btn_frame = Frame(point_GUI)
-        run_btn = Button(point_btn_frame,padx=20,pady=5,text='Run',command=lambda:[to_kml.point(Lat_Text.get(),Lon_Text.get()),func.ask_open_map()])
+        run_btn = Button(point_btn_frame,padx=20,pady=5,text='Run',command=lambda:to_kml.point(Lat_Text.get(),Lon_Text.get()))
 
         point_label_frame.pack(side='left')
         Lat_label.pack(padx=4)
@@ -88,29 +97,37 @@ class GUI:
         file_path_text.pack(side='left',fill='x',expand=True,padx=3,pady=5,ipady=4)        
         open_btn.pack(side='right')
 
-        run_btn = Button(route_GUI,padx=20,pady=3,text='Run',command=lambda:[to_kml.route(file_path_text.get()),func.ask_open_map()])
+        run_btn = Button(route_GUI,padx=20,pady=3,text='Run',command=lambda:to_kml.route(file_path_text.get()))
         run_btn.pack()
 
         route_GUI.mainloop()
 
 class to_kml:
     def point(Latitude,Longitude): # 緯度 , 経度
-        if not (-180<=float(Latitude)<=180 or -180<=float(Longitude)<=180):
-            msgbox.showerror(title='value error!',message='-180から 180の間の値を入力してください')
-        else:
-            point = simplekml.Kml()
-            point.newpoint(name='GPS POINT',description='POINT from GPS tracker',coords=[(Longitude,Latitude)])
-            point.save('GPS tracker point.kml')
+        try:
+            if (-180<=float(Latitude)<=180) and (-180<=float(Longitude)<=180):
+                    point = simplekml.Kml()
+                    point.newpoint(name='GPS POINT',description='POINT from GPS tracker',coords=[(Longitude,Latitude)])
+                    point.save('GPS tracker point.kml')
+                    func.ask_open_map()
+            else:
+                msgbox.showerror(title='value error!',message='-180から 180の間の値を入力してください')
+        except ValueError:
+            msgbox.showerror(title='value error!',message='正しい値を入力してください')
 
     def route(gps_file): # ファイル位置
-        df = pd.read_csv(gps_file)
-        coord = list(zip(df['lon'],df['lat']))
+        try:
+            df = pd.read_csv(gps_file)
+            coord = list(zip(df['lon'],df['lat']))
 
-        route = simplekml.Kml()
-        lin = route.newlinestring(name='GPS ROUTE',description='ROUTE from GPS tracker',coords=coord)
-        lin.style.linestyle.color = simplekml.Color.greenyellow
-        lin.style.linestyle.width = 8
-        route.save('GPS tracker route.kml')
+            route = simplekml.Kml()
+            lin = route.newlinestring(name='GPS ROUTE',description='ROUTE from GPS tracker',coords=coord)
+            lin.style.linestyle.color = simplekml.Color.greenyellow
+            lin.style.linestyle.width = 8
+            route.save('GPS tracker route.kml')
+            func.ask_open_map()
+        except FileNotFoundError:
+            msgbox.showerror(title='FileNotFoundError!',message='ファイルが見つかりません')
 
 class func:
     def ask_open_map():
