@@ -50,15 +50,22 @@ class OpneRocket_automation:
         para = para.nose()
         draw.drawing('nose')
         pyautogui.sleep(1)
-        for i in range(0,6):
-            pyautogui.press('\t')
         for key in para.keys():
+            pyautogui.sleep(0.1)
             if key == 'shape_nose':
-                continue
-            if key == 'thickness_nose':
+                for i in range(0,5):
+                    pyautogui.press('\t')
+            elif key == 'material':
+                pyautogui.sleep(0.2)
+                draw.material_selection(para[key])
+                pyautogui.sleep(0.2)
+            elif key =='thickness_nose' or key == 'shape_coef':
                 pyautogui.press('\t')
-            tabNca()
-            pyautogui.write(str(para[key]))
+                tabNca()
+                pyautogui.write(str(para[key]))
+            else:
+                tabNca()
+                pyautogui.write(str(para[key]))
         pyautogui.press(['\t','\t','\t','enter'])
 
     def design_body(self):
@@ -74,14 +81,20 @@ class OpneRocket_automation:
             pyautogui.press('\t')
             tabNca()
             pyautogui.write(str(para_body['lenght_body']))
-            pyautogui.press(['\t','\t','\t'])
+            pyautogui.press(['\t','\t'])
+            pyautogui.sleep(0.2)
+            draw.material_selection(para_body['material'])
+            pyautogui.sleep(0.2)
+            pyautogui.press('\t')
             tabNca()
             pyautogui.write(str(para['diameter_body']))
             pyautogui.press('\t')
             tabNca()
             pyautogui.write(str(para_body['inner_diameter']))
-            pyautogui.press(['\t','\t','\t','\t','\t','enter'])
-        pyautogui.click(1700,750)
+            for i in range(0,5):
+                pyautogui.press('\t')
+            pyautogui.press('enter')
+        pyautogui.click(1800,750)
     
     def design_fin(self):
         draw = OpneRocket_automation(self.file)
@@ -90,18 +103,103 @@ class OpneRocket_automation:
         draw.drawing('fin')
         pyautogui.sleep(1)
         for key in para.keys():
+            pyautogui.sleep(0.1)
             if key == 'shape_fin':
                 continue
-            if key == 'inclination' or key == 'thickness_fin':
+            elif key == 'inclination' or key == 'thickness_fin':
                 pyautogui.press('\t')
-            if key == 'offset_fin':
-                pyautogui.press(['\t','\t','\t'])
+            elif key == 'offset_fin':
+                for i in range(0,3):
+                    pyautogui.press('\t')
+            elif key == 'material':
+                pyautogui.press(['\t','\t'],interval=0.25)
+                pyautogui.sleep(0.2)
+                draw.material_selection(para[key])
+                pyautogui.sleep(0.2)
+                continue
             tabNca()
             pyautogui.write(str(para[key]))
-        for i in range(0,10):
+        for i in range(0,8):
             pyautogui.press('\t')
         pyautogui.press('enter')
 
+    def material_selection(self,meterial):
+        if meterial == 'ボール紙':
+            pass
+        elif meterial == 'Basswood':
+            for i in range(1,16):
+                pyautogui.press('up')
+        elif meterial =='Blue tube':
+            for i in range(0,15):
+                pyautogui.press('up')
+        elif meterial =='Depron(XPS)':
+            for i in range(0,14):
+                pyautogui.press('up')
+        elif meterial =='Quantum tubing':
+            for i in range(0,13):
+                pyautogui.press('up')
+        elif meterial =='アクリル':
+            for i in range(0,12):
+                pyautogui.press('up')
+        elif meterial =='アルミ':
+            for i in range(0,11):
+                pyautogui.press('up')
+        elif meterial =='カエデ材':
+            for i in range(0,10):
+                pyautogui.press('up')
+        elif meterial =='カバ材':
+            for i in range(0,9):
+                pyautogui.press('up')
+        elif meterial =='カーボンファイバー':
+            for i in range(0,8):
+                pyautogui.press('up')
+        elif meterial =='ガラスファイバー':
+            for i in range(0,7):
+                pyautogui.press('up')
+        elif meterial =='コルク材':
+            for i in range(0,6):
+                pyautogui.press('up')
+        elif meterial =='スタイロフォーム(EPS)':
+            for i in range(0,5):
+                pyautogui.press('up')
+        elif meterial =='スタイロフォーム青(XPS)':
+            for i in range(0,4):
+                pyautogui.press('up')
+        elif meterial =='スプルース材':
+            for i in range(0,3):
+                pyautogui.press('up')
+        elif meterial =='チタン':
+            for i in range(0,2):
+                pyautogui.press('up')
+        elif meterial =='バルサ材':
+            pyautogui.press('up')
+        elif meterial =='ポリカーボネート(Lecan)':
+            pyautogui.press('down')
+        elif meterial =='ポリスチレン':
+            for i in range(0,2):
+                pyautogui.press('down')
+        elif meterial =='ポリ塩化ビニル':
+            for i in range(0,3):
+                pyautogui.press('down')
+        elif meterial =='マツ材':
+            for i in range(0,4):
+                pyautogui.press('down')
+        elif meterial =='合板(カバ材)':
+            for i in range(0,5):
+                pyautogui.press('down')
+        elif meterial =='真鍮':
+            for i in range(0,6):
+                pyautogui.press('down')
+        elif meterial =='紙フェノール':
+            for i in range(0,7):
+                pyautogui.press('down')
+        elif meterial =='紙(オフィス用)':
+            for i in range(0,8):
+                pyautogui.press('down')
+        elif meterial =='鉄':
+            for i in range(0,9):
+                pyautogui.press('down')
+        
     def OpenRocket(self):
         try:
             rocket = OpneRocket_automation(self.file)
