@@ -1,6 +1,8 @@
 import pyautogui
 import time
 import tkinter.messagebox as msg
+import cv2
+import os
 from OpenRocket import parameter
 
 def Timer(start,timeout=5):
@@ -94,7 +96,7 @@ class OpneRocket_automation:
             for i in range(0,5):
                 pyautogui.press('\t')
             pyautogui.press('enter')
-        pyautogui.click(1800,750)
+        pyautogui.click(draw.find_body(),750)
     
     def design_fin(self):
         draw = OpneRocket_automation(self.file)
@@ -124,81 +126,107 @@ class OpneRocket_automation:
         pyautogui.press('enter')
 
     def material_selection(self,meterial):
-        if meterial == 'ボール紙':
+        try:
+            if meterial == 'ボール紙':
+                pass
+            elif meterial == 'Basswood':
+                for i in range(1,16):
+                    pyautogui.press('up')
+            elif meterial =='Blue tube':
+                for i in range(0,15):
+                    pyautogui.press('up')
+            elif meterial =='Depron(XPS)':
+                for i in range(0,14):
+                    pyautogui.press('up')
+            elif meterial =='Quantum tubing':
+                for i in range(0,13):
+                    pyautogui.press('up')
+            elif meterial =='アクリル':
+                for i in range(0,12):
+                    pyautogui.press('up')
+            elif meterial =='アルミ':
+                for i in range(0,11):
+                    pyautogui.press('up')
+            elif meterial =='カエデ材':
+                for i in range(0,10):
+                    pyautogui.press('up')
+            elif meterial =='カバ材':
+                for i in range(0,9):
+                    pyautogui.press('up')
+            elif meterial =='カーボンファイバー':
+                for i in range(0,8):
+                    pyautogui.press('up')
+            elif meterial =='ガラスファイバー':
+                for i in range(0,7):
+                    pyautogui.press('up')
+            elif meterial =='コルク材':
+                for i in range(0,6):
+                    pyautogui.press('up')
+            elif meterial =='スタイロフォーム(EPS)':
+                for i in range(0,5):
+                    pyautogui.press('up')
+            elif meterial =='スタイロフォーム青(XPS)':
+                for i in range(0,4):
+                    pyautogui.press('up')
+            elif meterial =='スプルース材':
+                for i in range(0,3):
+                    pyautogui.press('up')
+            elif meterial =='チタン':
+                for i in range(0,2):
+                    pyautogui.press('up')
+            elif meterial =='バルサ材':
+                pyautogui.press('up')
+            elif meterial =='ポリカーボネート(Lecan)':
+                pyautogui.press('down')
+            elif meterial =='ポリスチレン':
+                for i in range(0,2):
+                    pyautogui.press('down')
+            elif meterial =='ポリ塩化ビニル':
+                for i in range(0,3):
+                    pyautogui.press('down')
+            elif meterial =='マツ材':
+                for i in range(0,4):
+                    pyautogui.press('down')
+            elif meterial =='合板(カバ材)':
+                for i in range(0,5):
+                    pyautogui.press('down')
+            elif meterial =='真鍮':
+                for i in range(0,6):
+                    pyautogui.press('down')
+            elif meterial =='紙フェノール':
+                for i in range(0,7):
+                    pyautogui.press('down')
+            elif meterial =='紙(オフィス用)':
+                for i in range(0,8):
+                    pyautogui.press('down')
+            elif meterial =='鉄':
+                for i in range(0,9):
+                    pyautogui.press('down')
+            else:
+                pass
+        except:
             pass
-        elif meterial == 'Basswood':
-            for i in range(1,16):
-                pyautogui.press('up')
-        elif meterial =='Blue tube':
-            for i in range(0,15):
-                pyautogui.press('up')
-        elif meterial =='Depron(XPS)':
-            for i in range(0,14):
-                pyautogui.press('up')
-        elif meterial =='Quantum tubing':
-            for i in range(0,13):
-                pyautogui.press('up')
-        elif meterial =='アクリル':
-            for i in range(0,12):
-                pyautogui.press('up')
-        elif meterial =='アルミ':
-            for i in range(0,11):
-                pyautogui.press('up')
-        elif meterial =='カエデ材':
-            for i in range(0,10):
-                pyautogui.press('up')
-        elif meterial =='カバ材':
-            for i in range(0,9):
-                pyautogui.press('up')
-        elif meterial =='カーボンファイバー':
-            for i in range(0,8):
-                pyautogui.press('up')
-        elif meterial =='ガラスファイバー':
-            for i in range(0,7):
-                pyautogui.press('up')
-        elif meterial =='コルク材':
-            for i in range(0,6):
-                pyautogui.press('up')
-        elif meterial =='スタイロフォーム(EPS)':
-            for i in range(0,5):
-                pyautogui.press('up')
-        elif meterial =='スタイロフォーム青(XPS)':
-            for i in range(0,4):
-                pyautogui.press('up')
-        elif meterial =='スプルース材':
-            for i in range(0,3):
-                pyautogui.press('up')
-        elif meterial =='チタン':
-            for i in range(0,2):
-                pyautogui.press('up')
-        elif meterial =='バルサ材':
-            pyautogui.press('up')
-        elif meterial =='ポリカーボネート(Lecan)':
-            pyautogui.press('down')
-        elif meterial =='ポリスチレン':
-            for i in range(0,2):
-                pyautogui.press('down')
-        elif meterial =='ポリ塩化ビニル':
-            for i in range(0,3):
-                pyautogui.press('down')
-        elif meterial =='マツ材':
-            for i in range(0,4):
-                pyautogui.press('down')
-        elif meterial =='合板(カバ材)':
-            for i in range(0,5):
-                pyautogui.press('down')
-        elif meterial =='真鍮':
-            for i in range(0,6):
-                pyautogui.press('down')
-        elif meterial =='紙フェノール':
-            for i in range(0,7):
-                pyautogui.press('down')
-        elif meterial =='紙(オフィス用)':
-            for i in range(0,8):
-                pyautogui.press('down')
-        elif meterial =='鉄':
-            for i in range(0,9):
-                pyautogui.press('down')
+    
+    def find_body(self):
+        scr = pyautogui.screenshot(region=(70,525,1830,475))
+        scr.save('OpenRocket\\find_body.png')
+        body = cv2.imread('OpenRocket\\find_body.png')
+        gray = cv2.cvtColor(body,cv2.COLOR_BGR2GRAY)
+        ret, otsu = cv2.threshold(gray,-1,255,cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+        contours, hierarchy = cv2.findContours(otsu,cv2.RETR_LIST,cv2.CHAIN_APPROX_NONE)
+
+        x_list = []
+
+        for cnt in contours:
+            if 800000 > cv2.contourArea(cnt) > 500:
+                x, y, width, height = cv2.boundingRect(cnt)
+                x_list.append(x)
+        print(x_list)
+        x_list.sort()
+        print(x_list)
+        os.remove('OpenRocket\\find_body.png')
+
+        return int(x_list[-1] + 100) 
         
     def OpenRocket(self):
         try:
