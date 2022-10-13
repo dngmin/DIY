@@ -21,12 +21,13 @@ Latitude(緯度) range : -180 ~ 180
 
 csvファイルを読み込む時には中身を
 
-lan lot
-x1  y1
-x2  y2
-..  ..
+lan lot alt
+x1  y1  z1
+x2  y2  z2
+..  ..  ..
 
 のようにしてくださーい
+( altはなかったら省略可)
 
 """
 
@@ -64,7 +65,7 @@ class GUI:
         Lat_Text = Entry(point_text_frame,width=15)
         Lon_Text = Entry(point_text_frame,width=15)
         point_btn_frame = Frame(point_GUI)
-        run_btn = Button(point_btn_frame,padx=20,pady=5,text='Run',command=lambda:to_kml.point(Lat_Text.get(),Lon_Text.get()))
+        run_btn = Button(point_btn_frame,padx=20,pady=5,text='Run',command=lambda:to_kml.point(Lon_Text.get(),Lat_Text.get()))
 
         point_label_frame.pack(side='left')
         Lat_label.pack(padx=4)
@@ -103,7 +104,7 @@ class GUI:
         route_GUI.mainloop()
 
 class to_kml:
-    def point(Latitude,Longitude): # 緯度 , 経度
+    def point(Longitude,Latitude): #  経度 , 緯度
         try:
             if (-180<=float(Latitude)<=180) and (-180<=float(Longitude)<=180):
                     point = simplekml.Kml()
@@ -118,10 +119,15 @@ class to_kml:
     def route(gps_file): # ファイル位置
         try:
             df = pd.read_csv(gps_file)
-            coord = list(zip(df['lon'],df['lat']))
+            try:
+                coord = list(zip(df['lon'],df['lat'],df['alt']))
+            except KeyError:
+                coord = list(zip(df['lon'],df['lat']))
 
             route = simplekml.Kml()
             lin = route.newlinestring(name='GPS ROUTE',description='ROUTE from GPS tracker',coords=coord)
+            lin.extrude = 1
+            lin.altitudemode = simplekml.AltitudeMode.relativetoground
             lin.style.linestyle.color = simplekml.Color.greenyellow
             lin.style.linestyle.width = 8
             route.save('GPS tracker route.kml')
