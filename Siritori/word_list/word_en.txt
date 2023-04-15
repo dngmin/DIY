@@ -1,0 +1,5 @@
+word
+octopus
+hospital
+clock
+mirror
